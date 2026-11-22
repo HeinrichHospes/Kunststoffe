@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kunststoffe auf Teilchenebene</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday, learning: clear, friendly, precise
+   IDEA a box of three plastic sample chips you heat on the hot plate in class
+   PICTURE three live chain models side by side, driven by one "Erwärmen" slider
+   COLOUR white ground, ink, thermoplast orange, duroplast slate, elastomer magenta, WBB blue
+   TYPE Outfit display + Inter text
+   LAYOUT title, then the model strip full width with slider; phone: models stacked, slider sticky */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121417);--ink:light-dark(#14171c,#eceef1);--mute:light-dark(#555b66,#a3a9b3);--line:light-dark(#e3e6ea,#2b3038);--panel:light-dark(#f5f6f8,#1b1f25);--th:#ea6a12;--du:light-dark(#3d4a5c,#9aa8bb);--el:#d0287a;--wbb:#1f6fe0;--vdw:light-dark(#8c96a3,#7f8894)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Outfit,Inter,sans-serif;line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,5vw,50px);font-weight:700}
+h2{font-size:clamp(26px,3.4vw,36px);font-weight:600;margin-bottom:12px}
+h3{font-size:21px;font-weight:600}
+p{margin:0 0 12px;max-width:68ch}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+.lead{font-size:18px;color:var(--mute);margin-top:12px}
+.nav{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px}
+.nav a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:2px solid var(--line)}
+.nav a:hover{border-color:var(--ink)}
+.models{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px}
+.m{background:var(--panel);border-radius:18px;padding:14px 14px 16px;border-top:6px solid var(--c)}
+.m svg{display:block;width:100%;height:auto;aspect-ratio:300/210}
+.m h3{color:var(--c)}
+.state{font-weight:600;min-height:1.6em;margin-top:6px}
+.m small{display:block;color:var(--mute);font-size:14px;line-height:1.45}
+.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:18px;padding:14px 18px;background:var(--panel);border-radius:16px}
+.ctl label{font-weight:600}
+.sl{flex:1 1 220px}
+.ctl input[type=range]{width:100%;height:36px;margin:0;accent-color:var(--th)}
+.ends{display:flex;justify-content:space-between;font-size:14px;color:var(--mute)}
+button{font:600 16px Inter,sans-serif;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--wbb);outline-offset:2px}
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.type h3{color:var(--c);margin-bottom:8px}
+.type dl{margin:0}
+.type dt{font-weight:600;margin-top:10px}
+.type dd{margin:2px 0 0}
+.ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ex span{font-size:14px;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,transparent)}
+.alt{background:var(--panel)}
+.ww{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:10px;align-items:start}
+.ww svg{display:block;width:100%;height:auto;margin:6px 0 10px}
+.card{background:var(--bg);border-radius:18px;padding:18px 20px}
+.key{display:inline-block;width:.8em;height:.8em;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.big{font-size:19px;font-weight:500;max-width:62ch}
+.quiz{display:grid;gap:14px;margin-top:16px}
+.q{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 18px;align-items:center;background:var(--bg);border-radius:16px;padding:14px 18px}
+.q .f{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;overflow-wrap:anywhere}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:40px;border-width:1.5px;font-size:15px}
+.fb{grid-column:1/-1;font-size:15px;min-height:0;margin:0}
+.fb.ok{color:light-dark(#137a3a,#5ad08a)}
+.fb.no{color:light-dark(#b42318,#ff8a7a)}
+.think{border-left:6px solid var(--th);padding:6px 0 6px 18px;margin-top:28px}
+footer{color:var(--mute);font-size:14px}
+@media(max-width:820px){.models,.types{grid-template-columns:minmax(0,1fr)}.m svg{aspect-ratio:300/170}.ww{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:820px){.ctl{position:sticky;top:0;z-index:5;border-radius:0 0 16px 16px;box-shadow:0 6px 14px -10px #0006}}
+@media(max-width:600px){.q{grid-template-columns:minmax(0,1fr)}.ctl{padding:10px 16px;gap:6px 12px;justify-content:space-between}.sl{flex-basis:100%;order:3}}
+</style>
+</head>
+<body>
+<header class="band" style="padding-bottom:12px">
+<div class="wrap">
+<h1>Thermoplast, Duroplast, Elastomer</h1>
+<p class="lead">Alle Kunststoffe bestehen aus sehr langen Kettenmolekülen. Ob ein Kunststoff schmilzt, hart bleibt oder sich dehnen lässt, hängt davon ab, wie diese Ketten miteinander verbunden sind.</p>
+<nav class="nav" aria-label="Abschnitte"><a href="#modell">Modell</a><a href="#sorten">Die drei Sorten</a><a href="#ww">Zwischenmolekulare Kräfte</a><a href="#check">Selbsttest</a></nav>
+</div>
+</header>
+
+<section class="band" id="modell" style="padding-top:8px">
+<div class="wrap">
+<div class="ctl">
+<label for="heat">Erwärmen</label>
+<div class="sl"><input id="heat" type="range" min="0" max="100" value="0" aria-describedby="heatEnds">
+<div class="ends" id="heatEnds"><span>Raumtemperatur</span><span>heiße Herdplatte</span></div></div>
+<button id="stretch" aria-pressed="false" type="button">Dehnen</button>
+</div>
+<div class="models">
+<div class="m" style="--c:var(--th)"><h3>Thermoplast</h3><svg id="sv0" viewBox="0 0 300 210" role="img" aria-label="Modell Thermoplast: lose nebeneinanderliegende Ketten"></svg><div class="state" id="st0"></div><small>Ketten nicht miteinander verknüpft, nur durch zwischenmolekulare Kräfte zusammengehalten.</small></div>
+<div class="m" style="--c:var(--el)"><h3>Elastomer</h3><svg id="sv1" viewBox="0 0 300 210" role="img" aria-label="Modell Elastomer: verknäuelte Ketten mit wenigen Querverbindungen"></svg><div class="state" id="st1"></div><small>Verknäuelte Ketten, an wenigen Stellen durch Atombindungen weitmaschig vernetzt.</small></div>
+<div class="m" style="--c:var(--du)"><h3>Duroplast</h3><svg id="sv2" viewBox="0 0 300 210" role="img" aria-label="Modell Duroplast: engmaschig vernetzte Ketten"></svg><div class="state" id="st2"></div><small>Ketten an sehr vielen Stellen durch Atombindungen engmaschig vernetzt.</small></div>
+</div>
+<p style="margin-top:14px;color:var(--mute);font-size:15px">Kreise = Kettenglieder, schwarze Stege = Atombindungen zwischen den Ketten (Vernetzung). Schieb den Regler und probier „Dehnen“ aus.</p>
+</div>
+</section>
+
+<section class="band alt" id="sorten">
+<div class="wrap">
+<h2>Die drei Sorten im Vergleich</h2>
+<div class="types">
+<article class="type" style="--c:var(--th)">
+<h3>Thermoplaste</h3>
+<dl>
+<dt>Aufbau</dt><dd>Lange, unvernetzte Ketten, die ungeordnet (teilweise auch geordnet) nebeneinanderliegen.</dd>
+<dt>Beim Erwärmen</dt><dd>Werden weich und schmelzen schließlich. Beim Abkühlen werden sie wieder fest, man kann sie also umformen und recyceln.</dd>
+<dt>Warum?</dt><dd>Die Ketten halten nur durch zwischenmolekulare Wechselwirkungen zusammen. Beim Erwärmen bewegen sie sich stärker, die Wechselwirkungen werden überwunden und die Ketten gleiten aneinander vorbei.</dd>
+<dt>Beispiele</dt><dd class="ex"><span>PET-Getränkeflaschen</span><span>Folien und Tüten (PE)</span><span>Joghurtbecher (PS)</span><span>Legosteine (ABS)</span></dd>
+</dl>
+</article>
+<article class="type" style="--c:var(--el)">
+<h3>Elastomere</h3>
+<dl>
+<dt>Aufbau</dt><dd>Verknäuelte Ketten, die an wenigen Stellen durch Atombindungen weitmaschig miteinander verbunden sind.</dd>
+<dt>Beim Verformen</dt><dd>Lassen sich dehnen und springen in ihre Form zurück: Die Knäuel werden gestreckt, die Vernetzungsstellen ziehen sie zurück.</dd>
+<dt>Beim Erwärmen</dt><dd>Schmelzen nicht, weil die Vernetzung das Abgleiten verhindert. Bei starkem Erhitzen zersetzen sie sich.</dd>
+<dt>Beispiele</dt><dd class="ex"><span>Gummiband</span><span>Fahrradschlauch</span><span>Autoreifen</span><span>Dichtungsringe</span></dd>
+</dl>
+</article>
+<article class="type" style="--c:var(--du)">
+<h3>Duroplaste</h3>
+<dl>
+<dt>Aufbau</dt><dd>Ketten, die an sehr vielen Stellen durch Atombindungen engmaschig zu einem räumlichen Netz verbunden sind.</dd>
+<dt>Beim Verformen</dt><dd>Hart und spröde, lassen sich kaum verformen und brechen eher.</dd>
+<dt>Beim Erwärmen</dt><dd>Werden nicht weich. Bevor die Ketten abgleiten könnten, brechen Atombindungen: Der Stoff zersetzt sich (wird schwarz, qualmt).</dd>
+<dt>Beispiele</dt><dd class="ex"><span>Topfgriffe (Phenolharz)</span><span>Steckdosen</span><span>Leiterplatten im Computer (Epoxidharz)</span><span>Klebstoffe aus zwei Komponenten</span></dd>
+</dl>
+</article>
+</div>
+</div>
+</section>
+
+<section class="band" id="ww">
+<div class="wrap">
+<h2>Was hält die Ketten eines Thermoplasten zusammen?</h2>
+<p class="big">Zwischen den Ketten eines Thermoplasten gibt es keine Atombindungen. Zusammengehalten werden sie nur durch <strong>zwischenmolekulare Wechselwirkungen</strong>. Je stärker diese Wechselwirkungen sind, desto mehr Energie braucht man, um die Ketten gegeneinander zu bewegen: Der Kunststoff wird erst bei höherer Temperatur weich.</p>
+<div class="ww">
+<div><div class="card" style="background:var(--panel)">
+<h3><span class="key" style="background:var(--vdw)"></span>Van-der-Waals-Kräfte</h3>
+<svg viewBox="0 0 420 150" role="img" aria-label="Zwei Kohlenstoffketten, zwischen ihnen Van-der-Waals-Kräfte als gestrichelte Linien">
+<g id="vdwl" stroke="var(--vdw)" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"></g>
+<polyline id="zz1" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+<polyline id="zz2" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+</svg>
+<p>Van-der-Waals-Kräfte sind schwache Anziehungskräfte zwischen Molekülen. In der Skizze sind sie als gestrichelte Linien zwischen den beiden Ketten dargestellt.</p>
+<p>Van-der-Waals-Kräfte wirken zwischen <strong>allen</strong> Molekülen. Sie sind einzeln schwach, aber sie addieren sich: Je länger und unverzweigter die Ketten, desto größer die Kontaktfläche und desto stärker der Zusammenhalt.</p>
+</div>
+<div class="think">
+<h3 style="margin-bottom:6px">Und euer Polyester?</h3>
+<p>Ihr habt Bernsteinsäure mit Glycerin verestert. Glycerin hat <strong>drei</strong> OH-Gruppen. Überlegt: Was liegt zwischen zwei Polyesterketten vor, wenn nur zwei OH-Gruppen jedes Glycerins verestert werden? Welche Wechselwirkungen sind dann möglich? Und was passiert, wenn auch die dritte OH-Gruppe reagiert?</p>
+</div></div>
+<div class="card" style="background:var(--panel)">
+<h3><span class="key" style="background:var(--wbb)"></span>Wasserstoffbrückenbindungen</h3>
+<svg viewBox="0 0 420 196" role="img" aria-label="Wasserstoffbrücke zwischen dem H-Atom einer O–H-Gruppe der oberen Kette und dem Sauerstoffatom einer C=O-Gruppe der unteren Kette">
+<g stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round">
+<path d="M15 24 L82 24 M108 24 L172 24 M198 24 L262 24 M288 24 L405 24"/>
+<path d="M185 34 L185 50 M185 70 L185 82"/>
+<path d="M15 176 L82 176 M108 176 L172 176 M198 176 L262 176 M288 176 L405 176"/>
+<path d="M181 148 L181 162 M189 148 L189 162"/>
+</g>
+<g font-family="Inter" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">
+<text x="95" y="31">C</text><text x="185" y="31">C</text><text x="275" y="31">C</text>
+<text x="185" y="67">O</text><text x="185" y="99">H</text>
+<text x="95" y="183">C</text><text x="185" y="183">C</text><text x="275" y="183">C</text>
+<text x="185" y="143">O</text>
+</g>
+<line x1="185" y1="106" x2="185" y2="125" stroke="var(--wbb)" stroke-width="3.5" stroke-dasharray="2 6" stroke-linecap="round"/>
+<text x="200" y="98" font-family="Inter" font-size="15" fill="var(--wbb)">δ+</text>
+<text x="208" y="146" font-family="Inter" font-size="15" fill="var(--wbb)">δ−</text>
+<text x="232" y="121" font-family="Inter" font-size="15" font-weight="600" fill="var(--wbb)">Wasserstoffbrücke</text>
+<path d="M170 134 L176 124 M194 124 L200 134" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M172 54 L172 66 M198 54 L198 66" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+<p>Wasserstoffbrücken können nur von H-Atomen ausgehen, die an ein stark elektronegatives Atom gebunden sind, also von <strong><span style="white-space:nowrap">O–H-,</span> <span style="white-space:nowrap">N–H-</span> und <span style="white-space:nowrap">F–H-Gruppen</span></strong>. Ein solches H-Atom ist stark positiv polarisiert. Es zieht ein <strong>freies Elektronenpaar eines O-, N- oder F-Atoms</strong> der Nachbarkette an.</p>
+<p>Man braucht also beides: auf der einen Seite eine <span style="white-space:nowrap">O–H-,</span> <span style="white-space:nowrap">N–H-</span> oder <span style="white-space:nowrap">F–H-Gruppe</span>, auf der anderen ein O-, N- oder F-Atom mit freiem Elektronenpaar. Wasserstoffbrücken sind deutlich stärker als Van-der-Waals-Kräfte.</p>
+<h3 style="font-size:18px;margin:14px 0 4px">Zweites Beispiel: Amide</h3>
+<svg viewBox="0 0 420 230" role="img" aria-label="Wasserstoffbrücke zwischen der N–H-Gruppe einer Amidgruppe und dem Sauerstoffatom der C=O-Gruppe einer Amidgruppe der Nachbarkette"><g transform="translate(0,34)"><path d="M271 12 L271 -2 M279 12 L279 -2" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><text x="275" y="-12" font-family="Inter" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">O</text>
+<g stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round">
+<path d="M15 24 L82 24 M108 24 L172 24 M198 24 L262 24 M288 24 L405 24"/>
+<path d="M185 34 L185 82"/>
+<path d="M15 176 L82 176 M108 176 L172 176 M198 176 L262 176 M288 176 L405 176"/>
+<path d="M181 148 L181 162 M189 148 L189 162"/>
+</g>
+<g font-family="Inter" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">
+<text x="95" y="31">C</text><text x="185" y="31">N</text><text x="275" y="31">C</text>
+<text x="185" y="99">H</text>
+<text x="95" y="183">N</text><text x="185" y="183">C</text><text x="275" y="183">C</text>
+<text x="185" y="143">O</text>
+</g>
+<line x1="185" y1="106" x2="185" y2="125" stroke="var(--wbb)" stroke-width="3.5" stroke-dasharray="2 6" stroke-linecap="round"/>
+<text x="200" y="98" font-family="Inter" font-size="15" fill="var(--wbb)">δ+</text>
+<text x="208" y="146" font-family="Inter" font-size="15" fill="var(--wbb)">δ−</text>
+<text x="232" y="121" font-family="Inter" font-size="15" font-weight="600" fill="var(--wbb)">Wasserstoffbrücke</text>
+<path d="M170 134 L176 124 M194 124 L200 134" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M260 -21 L266 -31 M284 -31 L290 -21" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M179 10 L191 10" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none"/></g></svg>
+<p>In Amidgruppen (–CO–NH–) ist ein H-Atom an ein N-Atom gebunden. Zwischen der N–H-Gruppe einer Kette und dem O-Atom der C=O-Gruppe der Nachbarkette bilden sich Wasserstoffbrücken. Solche Amidgruppen kommen z. B. in Polyamiden (Nylon) vor.</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="band alt" id="check">
+<div class="wrap">
+<h2>Selbsttest: Welche Wechselwirkungen wirken zwischen den Ketten?</h2>
+<p>Wähle alle zutreffenden aus und prüfe deine Antwort.</p>
+<div class="quiz" id="quiz"></div>
+</div>
+</section>
+
+<footer class="band" style="padding-top:20px;padding-bottom:28px"><div class="wrap">Chemie Q2 · Kunststoffe · Ergänzung zum Arbeitsblatt „Eigenschaften der Kunststoffe“</div></footer>
+
+<script>
+{
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let seed=7;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+const NS='http://www.w3.org/2000/svg';
+const cols=['var(--th)','var(--el)','var(--du)'];
+function makeModel(kind){
+  const chains=[],links=[];const n=5,len=13;
+  for(let i=0;i<n;i++){const pts=[];const y0=30+i*37,ph=rnd()*6,amp=kind==1?14:kind==0?7:4,fr=kind==1?0.9:0.5;
+    for(let j=0;j<len;j++){pts.push({x:18+j*22+(rnd()-.5)*4,y:y0+Math.sin(j*fr+ph)*amp,ph:rnd()*6})}
+    chains.push(pts)}
+  if(kind==1){[[0,3],[1,9],[2,5],[3,10]].forEach(([i,j])=>links.push([i,j,i+1,j+(rnd()<.5?0:1)]))}
+  if(kind==2){for(let i=0;i<n-1;i++)for(let j=1;j<len;j+=2)links.push([i,j,i+1,j+(i%2)])}
+  return {chains,links,drift:chains.map(()=>({a:rnd()*6,b:rnd()*6}))}
+}
+const models=[0,1,2].map(makeModel);
+const svgs=[0,1,2].map(i=>document.getElementById('sv'+i));
+const heat=document.getElementById('heat'),stretchBtn=document.getElementById('stretch');
+let stretched=false,s=0;
+stretchBtn.addEventListener('click',()=>{stretched=!stretched;stretchBtn.setAttribute('aria-pressed',stretched)});
+const st=[document.getElementById('st0'),document.getElementById('st1'),document.getElementById('st2')];
+function states(h){
+  st[0].textContent=h<35?'fest und hart':h<70?'wird weich und formbar':'schmilzt, Ketten gleiten';
+  st[1].textContent=h<80?(stretched?'gedehnt, federt zurück':'elastisch'):'zersetzt sich, schmilzt nicht';
+  st[2].textContent=h<80?(stretched?'lässt sich kaum dehnen':'hart, formstabil'):'zersetzt sich, schmilzt nicht';
+}
+function frame(t){
+  t=reduce?0:t/1000;const h=+heat.value,k=h/100;
+  s+=((stretched?1:0)-s)*0.12;
+  states(h);
+  models.forEach((m,mi)=>{
+    const burn=mi>0?Math.max(0,(h-80)/20):Math.max(0,(h-92)/8);
+    const jit=mi==2?0.4+k*1.2:mi==1?0.6+k*2.6:0.6+k*3.2;
+    const soft=mi==0?Math.max(0,(h-35)/65):0;
+    const sx=mi==1?1+0.28*s:mi==0?1+0.05*s:1+0.02*s;
+    const flat=mi==1?1-0.75*s:1;
+    const P=m.chains.map((c,ci)=>{const d=m.drift[ci];
+      return c.map((p,j)=>{
+        const cy=30+ci*37;
+        let x=150+(p.x-150)*sx+Math.sin(t*3+p.ph)*jit+soft*Math.cos(t*.5+d.a)*18;
+        let y=cy+(p.y-cy)*flat+Math.cos(t*2.6+p.ph)*jit+soft*(Math.sin(t*.6+d.b)*10+Math.sin(t*1.4+j*.8+ci)*9);
+        return [x,y]})});
+    const col=burn>0?`color-mix(in srgb, ${cols[mi]} ${Math.round(100-burn*75)}%, #2a1a10)`:cols[mi];
+    let o='';
+    m.links.forEach(([a,b,c,d])=>{const p=P[a][b],q=P[c][Math.min(d,12)];o+=`<line x1="${p[0].toFixed(1)}" y1="${p[1].toFixed(1)}" x2="${q[0].toFixed(1)}" y2="${q[1].toFixed(1)}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>`});
+    P.forEach(c=>{o+=`<polyline points="${c.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round" opacity=".55"/>`;
+      c.forEach(p=>o+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="5.2" fill="${col}"/>`)});
+    if(burn>0){for(let i=0;i<3;i++){const x=70+i*80,y=20-((t*20+i*30)%40);o+=`<circle cx="${x}" cy="${y+10}" r="${8+i*2}" fill="#7a7f87" opacity="${(0.35*Math.min(burn,1)).toFixed(2)}"/>`}}
+    svgs[mi].innerHTML=o;
+  });
+  if(!reduce)requestAnimationFrame(frame);
+}
+if(reduce){heat.addEventListener('input',()=>frame(0));stretchBtn.addEventListener('click',()=>frame(0));frame(0)}else requestAnimationFrame(frame);
+
+/* vdW picture */
+const zz=(y)=>Array.from({length:17},(_,i)=>`${15+i*24.4},${y+(i%2?10:-10)}`).join(' ');
+document.getElementById('zz1').setAttribute('points',zz(38));
+document.getElementById('zz2').setAttribute('points',Array.from({length:17},(_,i)=>`${15+i*24.4},${112+(i%2?-10:10)}`).join(' '));
+document.getElementById('vdwl').innerHTML=Array.from({length:8},(_,i)=>{const x=15+(2*i+1)*24.4;return `<line x1="${x}" y1="52" x2="${x}" y2="98"/>`}).join('');
+
+/* quiz */
+const Q=[
+ {f:'Polyethylen: –[CH₂–CH₂]ₙ–',a:['vdw'],w:'Nur C–H- und C–C-Bindungen: kein H an O oder N, also keine Wasserstoffbrücken. Es wirken nur Van-der-Waals-Kräfte.'},
+ {f:'Polyvinylalkohol: –[CH₂–CH(OH)]ₙ–',a:['vdw','wbb'],w:'Die O–H-Gruppen können Wasserstoffbrücken zur Nachbarkette bilden. Van-der-Waals-Kräfte wirken zusätzlich, wie immer.'},
+ {f:'Zwei Ketten, die nur Estergruppen –CO–O– enthalten, aber keine OH-Gruppen',a:['vdw'],w:'Die O-Atome hätten zwar freie Elektronenpaare, aber es fehlt ein H-Atom, das an O oder N gebunden ist. Ohne diesen Partner gibt es keine Wasserstoffbrücke.'}
+];
+const quiz=document.getElementById('quiz');
+quiz.innerHTML=Q.map((q,i)=>`<div class="q" id="q${i}"><div class="f">${q.f}</div><div class="chips"><button type="button" aria-pressed="false" data-v="vdw" id="q${i}v">Van der Waals</button><button type="button" aria-pressed="false" data-v="wbb" id="q${i}w">Wasserstoffbrücken</button><button type="button" data-check="${i}" id="q${i}c" style="border-color:var(--wbb);color:var(--wbb)">Prüfen</button></div><p class="fb" id="q${i}f" aria-live="polite"></p></div>`).join('');
+quiz.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.v){b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!='true');return}
+  const i=+b.dataset.check,box=document.getElementById('q'+i);
+  const sel=[...box.querySelectorAll('[data-v][aria-pressed=true]')].map(x=>x.dataset.v).sort().join();
+  const ok=sel==Q[i].a.slice().sort().join();const fb=document.getElementById('q'+i+'f');
+  fb.className='fb '+(ok?'ok':'no');fb.textContent=(ok?'Richtig. ':'Noch nicht. ')+Q[i].w;
+});
+}
+</script>
+</body>
+</html>
